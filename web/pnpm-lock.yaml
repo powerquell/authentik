@@ -61,7 +61,7 @@ importers:
         specifier: ^7.2.0
         version: 7.2.0
       '@goauthentik/api':
-        specifier: workspace:*
+        specifier: link:packages/client-ts
         version: link:packages/client-ts
       '@goauthentik/brand-assets':
         specifier: ^2.0.0
@@ -407,7 +407,7 @@ importers:
   packages/sfe:
     dependencies:
       '@goauthentik/api':
-        specifier: workspace:*
+        specifier: link:../client-ts
         version: link:../client-ts
       '@goauthentik/core':
         specifier: workspace:*

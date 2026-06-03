@@ -14,7 +14,7 @@
         "./package.json": "./package.json"
     },
     "dependencies": {
-        "@goauthentik/api": "workspace:*",
+        "@goauthentik/api": "link:../client-ts",
         "@goauthentik/core": "workspace:*",
         "@rollup/plugin-commonjs": "^29.0.2",
         "@rollup/plugin-node-resolve": "^16.0.3",

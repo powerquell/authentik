@@ -49,5 +49,5 @@ runs:
       run: |
         echo "node version: $(node --version)"
         echo "pnpm version: $(pnpm --version)"
-        node ${{ github.workspace }}/scripts/node/lint-runtime.mjs ${{ inputs.working-directory }}
+        node ${{ github.workspace }}/scripts/node/lint-runtime.mjs
         pnpm install --frozen-lockfile

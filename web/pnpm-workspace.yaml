@@ -1,5 +1,10 @@
 packages:
     - "packages/*"
+    # client-ts is a symlink to the repo-root packages/client-ts; consuming it as
+    # a workspace member makes pnpm treat an out-of-root path as an importer, which
+    # it cannot represent in this lockfile. Link it as an external local package
+    # instead (see web + sfe package.json).
+    - "!packages/client-ts"
 
 # pnpm's default isolated linker exposes packages strictly — only declared
 # dependencies are visible. The web bundle relies on a handful of phantom
