@@ -16,7 +16,7 @@ RUN --mount=type=bind,target=/work/package.json,src=./package.json \
     --mount=type=bind,target=/work/web/package.json,src=./web/package.json \
     --mount=type=bind,target=/work/scripts/node/,src=./scripts/node/ \
     --mount=type=bind,target=/work/packages/logger-js/,src=./packages/logger-js/ \
-    npm install -g "pnpm@$(node -p 'require(\"./package.json\").packageManager.split(\"@\")[1].split(\"+\")[0]')" && \
+    npm install -g "pnpm@$(node -p 'require("./package.json").packageManager.split("@")[1].split("+")[0]')" && \
     node ./scripts/node/lint-runtime.mjs ./web
 
 WORKDIR /work/web

@@ -51,3 +51,4 @@ src/locales/
 storybook-static/
 .storybook/css-import-maps*
 
+pnpm-lock.yaml
