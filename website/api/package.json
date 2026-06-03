@@ -30,7 +30,7 @@
         "@docusaurus/tsconfig": "^3.10.1",
         "@docusaurus/types": "^3.10.1",
         "@goauthentik/docusaurus-config": "../../packages/docusaurus-config",
-        "@goauthentik/docusaurus-theme": "*",
+        "@goauthentik/docusaurus-theme": "workspace:*",
         "@goauthentik/tsconfig": "^1.0.7",
         "@mdx-js/react": "^3.1.1",
         "@types/postman-collection": "^3.5.11",

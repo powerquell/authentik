@@ -26,7 +26,7 @@ jobs:
         with:
           working-directory: website
       - name: Lint
-        run: corepack npm run ${{ matrix.command }} --prefix website
+        run: pnpm --dir website run ${{ matrix.command }}
   build:
     runs-on: ubuntu-latest
 
@@ -41,14 +41,14 @@ jobs:
             ${{ github.workspace }}/website/api/.docusaurus
             ${{ github.workspace }}/website/api/**/.cache
           key: |
-            ${{ runner.os }}-docusaurus-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
+            ${{ runner.os }}-docusaurus-${{ hashFiles('**/pnpm-lock.yaml') }}-${{ hashFiles('**.[jt]s', '**.[jt]sx') }}
           restore-keys: |
-            ${{ runner.os }}-docusaurus-${{ hashFiles('**/package-lock.json') }}
+            ${{ runner.os }}-docusaurus-${{ hashFiles('**/pnpm-lock.yaml') }}
       - name: Build API Docs via Docusaurus
         working-directory: website
         env:
           NODE_ENV: production
-        run: corepack npm run build -w api
+        run: pnpm run build:api
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v4
         with:
           name: api-docs

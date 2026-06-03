@@ -9,36 +9,38 @@ ENV NODE_ENV=production
 
 WORKDIR /work
 
+# Bootstrap pnpm via the version pinned in the root package.json. Node ships
+# with npm; we use it once here to land pnpm on the PATH, after which pnpm's
+# `packageManager` self-bootstrap takes over.
 RUN --mount=type=bind,target=/work/package.json,src=./package.json \
-    --mount=type=bind,target=/work/package-lock.json,src=./package-lock.json \
     --mount=type=bind,target=/work/web/package.json,src=./web/package.json \
-    --mount=type=bind,target=/work/web/package-lock.json,src=./web/package-lock.json \
     --mount=type=bind,target=/work/scripts/node/,src=./scripts/node/ \
     --mount=type=bind,target=/work/packages/logger-js/,src=./packages/logger-js/ \
-    node ./scripts/node/setup-corepack.mjs --force && \
+    npm install -g "pnpm@$(node -p 'require(\"./package.json\").packageManager.split(\"@\")[1].split(\"+\")[0]')" && \
     node ./scripts/node/lint-runtime.mjs ./web
 
 WORKDIR /work/web
 
-# These files need to be copied and cannot be mounted as `npm ci` will build the client's typescript
+# These files need to be copied and cannot be mounted as `pnpm install` will build the client's typescript
 COPY ./packages /work/packages
 COPY ./web/packages /work/web/packages
 
 RUN --mount=type=bind,target=/work/.npmrc,src=./.npmrc \
     --mount=type=bind,target=/work/web/package.json,src=./web/package.json \
-    --mount=type=bind,target=/work/web/package-lock.json,src=./web/package-lock.json \
+    --mount=type=bind,target=/work/web/pnpm-lock.yaml,src=./web/pnpm-lock.yaml \
+    --mount=type=bind,target=/work/web/pnpm-workspace.yaml,src=./web/pnpm-workspace.yaml \
     --mount=type=bind,target=/work/web/packages/sfe/package.json,src=./web/packages/sfe/package.json \
     --mount=type=bind,target=/work/web/scripts,src=./web/scripts \
-    --mount=type=cache,id=npm-ak,sharing=shared,target=/root/.npm \
-    corepack npm ci
+    --mount=type=cache,id=pnpm-ak,sharing=shared,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile
 
 COPY ./package.json /work
 COPY ./web /work/web/
 # TODO: Update this after moving website to docs
 COPY ./website /work/website/
 
-RUN npm run build && \
-    npm run build:sfe
+RUN pnpm run build && \
+    pnpm run build:sfe
 
 # Stage: Build go proxy
 FROM --platform=${BUILDPLATFORM} docker.io/library/golang:1.26.3-trixie@sha256:0f6b034c99663ea8957e7dae99124e37374cbe7fcb5b5646f19b185f8f976279 AS go-builder

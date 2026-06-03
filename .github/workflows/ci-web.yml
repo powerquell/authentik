@@ -22,13 +22,13 @@ jobs:
         with:
           working-directory: web
       - name: Lint
-        run: corepack npm run lint-check --prefix web
+        run: pnpm --dir web run lint-check
       - name: Check types
-        run: corepack npm run tsc --prefix web
+        run: pnpm --dir web run tsc
       - name: Check formatting
-        run: corepack npm run prettier-check --prefix web
+        run: pnpm --dir web run prettier-check
       - name: Lit analyse
-        run: corepack npm run lit-analyse --prefix web
+        run: pnpm --dir web run lit-analyse
 
   build:
     runs-on: ubuntu-latest
@@ -42,7 +42,7 @@ jobs:
         env:
           NODE_ENV: "production"
         working-directory: web/
-        run: corepack npm run build
+        run: pnpm run build
   ci-web-mark:
     if: always()
     needs:
@@ -65,4 +65,4 @@ jobs:
           working-directory: web
       - name: test
         working-directory: web/
-        run: corepack npm run test || exit 0
+        run: pnpm run test || exit 0

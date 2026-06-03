@@ -65,8 +65,7 @@
         "out/**/*"
     ],
     "engines": {
-        "node": ">=24",
-        "npm": ">=11.14.1"
+        "node": ">=24"
     },
     "devEngines": {
         "runtime": {
@@ -75,23 +74,12 @@
             "version": ">=24"
         },
         "packageManager": {
-            "name": "npm",
-            "version": ">=11.14.1",
+            "name": "pnpm",
+            "version": ">=11.5.1",
             "onFail": "warn"
         }
     },
     "prettier": "@goauthentik/prettier-config",
-    "overrides": {
-        "@typescript-eslint/eslint-plugin": {
-            "typescript": "$typescript"
-        },
-        "@typescript-eslint/parser": {
-            "typescript": "$typescript"
-        },
-        "typescript-eslint": {
-            "typescript": "$typescript"
-        }
-    },
     "peerDependenciesMeta": {
         "@docusaurus/theme-search-algolia": {
             "optional": true

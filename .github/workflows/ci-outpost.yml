@@ -149,7 +149,7 @@ jobs:
         with:
           working-directory: web
       - name: Build web
-        run: corepack npm run build-proxy --prefix web
+        run: pnpm --dir web run build-proxy
       - name: Build outpost
         run: |
           set -x

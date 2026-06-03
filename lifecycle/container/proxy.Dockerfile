@@ -6,30 +6,32 @@ FROM --platform=${BUILDPLATFORM} docker.io/library/node:26 AS web-builder
 ENV NODE_ENV=production
 WORKDIR /static
 
-# These files need to be copied and cannot be mounted as `npm ci` will build the client's typescript
+# These files need to be copied and cannot be mounted as `pnpm install` will build the client's typescript
 COPY ./packages /packages
 COPY ./web/packages /static/packages
 
+# Bootstrap pnpm via the version pinned in the root package.json. Node ships
+# with npm; we use it once here to land pnpm on the PATH, after which pnpm's
+# `packageManager` self-bootstrap takes over.
 RUN --mount=type=bind,target=/static/package.json,src=./package.json \
-    --mount=type=bind,target=/static/package-lock.json,src=./package-lock.json \
     --mount=type=bind,target=/static/web/package.json,src=./web/package.json \
-    --mount=type=bind,target=/static/web/package-lock.json,src=./web/package-lock.json \
     --mount=type=bind,target=/static/scripts/node/,src=./scripts/node/ \
     --mount=type=bind,target=/static/packages/logger-js/,src=./packages/logger-js/ \
-    node ./scripts/node/setup-corepack.mjs --force && \
+    npm install -g "pnpm@$(node -p 'require(\"./package.json\").packageManager.split(\"@\")[1].split(\"+\")[0]')" && \
     node ./scripts/node/lint-runtime.mjs ./web
 
 COPY package.json /
 
 RUN --mount=type=bind,target=/static/.npmrc,src=./.npmrc \
     --mount=type=bind,target=/static/package.json,src=./web/package.json \
-    --mount=type=bind,target=/static/package-lock.json,src=./web/package-lock.json \
+    --mount=type=bind,target=/static/pnpm-lock.yaml,src=./web/pnpm-lock.yaml \
+    --mount=type=bind,target=/static/pnpm-workspace.yaml,src=./web/pnpm-workspace.yaml \
     --mount=type=bind,target=/static/scripts,src=./web/scripts \
-    --mount=type=cache,target=/root/.npm \
-    corepack npm ci
+    --mount=type=cache,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile
 
 COPY web .
-RUN npm run build-proxy
+RUN pnpm run build-proxy
 
 # Stage 2: Build
 FROM --platform=${BUILDPLATFORM} docker.io/library/golang:1.26.3-trixie@sha256:0f6b034c99663ea8957e7dae99124e37374cbe7fcb5b5646f19b185f8f976279 AS builder

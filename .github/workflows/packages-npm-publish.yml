@@ -36,8 +36,6 @@ jobs:
         with:
           fetch-depth: 2
       - uses: ./.github/actions/setup-node
-        with:
-          working-directory: ${{ matrix.package }}
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@9426d40962ed5378910ee2e21d5f8c6fcbf2dd96 # 24d32ffd492484c1d75e0c0b894501ddb9d30d62
@@ -48,6 +46,5 @@ jobs:
         if: steps.changed-files.outputs.any_changed == 'true'
         working-directory: ${{ matrix.package }}
         run: |
-          corepack npm ci
-          corepack npm run build
-          corepack npm publish
+          pnpm run build
+          pnpm publish --no-git-checks

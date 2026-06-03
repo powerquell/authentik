@@ -266,16 +266,16 @@ jobs:
         if: contains(matrix.job.profiles, 'selenium')
         with:
           path: web/dist
-          key: ${{ runner.os }}-web-${{ hashFiles('web/package-lock.json', 'package-lock.json', 'web/src/**', 'web/packages/sfe/src/**') }}-b
+          key: ${{ runner.os }}-web-${{ hashFiles('web/pnpm-lock.yaml', 'pnpm-lock.yaml', 'web/src/**', 'web/packages/sfe/src/**') }}-b
       - name: prepare web ui
         if: steps.cache-web.outputs.cache-hit != 'true' && contains(matrix.job.profiles, 'selenium')
         working-directory: web
         env:
           NODE_ENV: "production"
         run: |
-          corepack npm ci
-          corepack npm run build
-          corepack npm run build:sfe
+          pnpm install --frozen-lockfile
+          pnpm run build
+          pnpm run build:sfe
       - name: run e2e
         run: |
           uv run coverage run manage.py test ${{ matrix.job.glob }}
@@ -321,15 +321,15 @@ jobs:
         uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v4
         with:
           path: web/dist
-          key: ${{ runner.os }}-web-${{ hashFiles('web/package-lock.json', 'web/src/**', 'web/packages/sfe/src/**') }}-b
+          key: ${{ runner.os }}-web-${{ hashFiles('web/pnpm-lock.yaml', 'web/src/**', 'web/packages/sfe/src/**') }}-b
       - name: prepare web ui
         if: steps.cache-web.outputs.cache-hit != 'true'
         env:
           NODE_ENV: "production"
         run: |
-          corepack npm ci --prefix web
-          corepack npm run build --prefix web
-          corepack npm run build:sfe --prefix web
+          pnpm --dir web install --frozen-lockfile
+          pnpm --dir web run build
+          pnpm --dir web run build:sfe
       - name: run conformance
         run: |
           uv run coverage run manage.py test ${{ matrix.job.glob }}

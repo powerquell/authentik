@@ -21,7 +21,7 @@
         "@docusaurus/tsconfig": "^3.10.1",
         "@docusaurus/types": "^3.10.1",
         "@goauthentik/docusaurus-config": "../../packages/docusaurus-config",
-        "@goauthentik/docusaurus-theme": "*",
+        "@goauthentik/docusaurus-theme": "workspace:*",
         "@iconify-json/fa7-regular": "^1.2.2",
         "@iconify-json/fa7-solid": "^1.2.3",
         "@iconify-json/fluent-mdl2": "^1.2.1",
@@ -37,7 +37,6 @@
         "unist-util-visit": "^5.0.0"
     },
     "engines": {
-        "node": ">=24",
-        "npm": ">=11.14.1"
+        "node": ">=24"
     }
 }
