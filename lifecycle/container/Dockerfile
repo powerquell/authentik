@@ -14,6 +14,7 @@ WORKDIR /work
 # `packageManager` self-bootstrap takes over.
 RUN --mount=type=bind,target=/work/package.json,src=./package.json \
     --mount=type=bind,target=/work/web/package.json,src=./web/package.json \
+    --mount=type=bind,target=/work/web/pnpm-lock.yaml,src=./web/pnpm-lock.yaml \
     --mount=type=bind,target=/work/scripts/node/,src=./scripts/node/ \
     --mount=type=bind,target=/work/packages/logger-js/,src=./packages/logger-js/ \
     npm install -g "pnpm@$(node -p 'require("./package.json").packageManager.split("@")[1].split("+")[0]')" && \

@@ -15,6 +15,7 @@ COPY ./web/packages /static/packages
 # `packageManager` self-bootstrap takes over.
 RUN --mount=type=bind,target=/static/package.json,src=./package.json \
     --mount=type=bind,target=/static/web/package.json,src=./web/package.json \
+    --mount=type=bind,target=/static/web/pnpm-lock.yaml,src=./web/pnpm-lock.yaml \
     --mount=type=bind,target=/static/scripts/node/,src=./scripts/node/ \
     --mount=type=bind,target=/static/packages/logger-js/,src=./packages/logger-js/ \
     npm install -g "pnpm@$(node -p 'require("./package.json").packageManager.split("@")[1].split("+")[0]')" && \
