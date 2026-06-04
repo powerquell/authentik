@@ -17,7 +17,7 @@ overrides:
   '@typescript-eslint/parser>typescript': ^6.0.3
   '@typescript-eslint/typescript-estree>typescript': ^6.0.3
   '@typescript-eslint/utils>typescript': ^6.0.3
-  format-imports>eslint: ^9.39.3
+  format-imports>eslint: ^9.39.4
   node-fetch-commonjs>node-domexception: workspace:*
   rapidoc>@apitools/openapi-parser: 0.0.37
   typescript-eslint>typescript: ^6.0.3
