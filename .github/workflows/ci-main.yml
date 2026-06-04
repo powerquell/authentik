@@ -134,6 +134,11 @@ jobs:
         uses: ./.github/actions/setup
         with:
           postgresql_version: ${{ matrix.psql }}
+          # The stable checkout predates the pnpm migration, so its
+          # package.json still pins npm as the package manager. Skip node here
+          # (migrating to stable only needs Python + the database); pnpm/node is
+          # set up again for the current checkout below.
+          dependencies: "system,python,runtime"
       - name: run migrations to stable
         run: |
           docker ps

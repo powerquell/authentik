@@ -15,6 +15,27 @@ RUN --mount=type=bind,target=/work/package.json,src=./package.json \
     npm install -g "pnpm@$(node -p 'require("./package.json").packageManager.split("@")[1].split("+")[0]')" && \
     node ./scripts/node/lint-runtime.mjs ./website
 
+# Install the root workspace's production dependencies so first-party packages
+# such as `@goauthentik/docusaurus-config` can resolve their own runtime
+# dependencies (e.g. `deepmerge-ts`) during the docs build. The package sources
+# are bind-mounted read-only, so a hoisted layout is used to land everything in
+# a single, writable /work/node_modules that those packages resolve against by
+# walking up the directory tree.
+RUN --mount=type=bind,target=/work/.npmrc,src=./.npmrc \
+    --mount=type=bind,target=/work/package.json,src=./package.json \
+    --mount=type=bind,target=/work/pnpm-lock.yaml,src=./pnpm-lock.yaml \
+    --mount=type=bind,target=/work/pnpm-workspace.yaml,src=./pnpm-workspace.yaml \
+    --mount=type=bind,target=/work/packages/docusaurus-config/package.json,src=./packages/docusaurus-config/package.json \
+    --mount=type=bind,target=/work/packages/esbuild-plugin-live-reload/package.json,src=./packages/esbuild-plugin-live-reload/package.json \
+    --mount=type=bind,target=/work/packages/eslint-config/package.json,src=./packages/eslint-config/package.json \
+    --mount=type=bind,target=/work/packages/logger-js/package.json,src=./packages/logger-js/package.json \
+    --mount=type=bind,target=/work/packages/prettier-config/package.json,src=./packages/prettier-config/package.json \
+    --mount=type=bind,target=/work/packages/tsconfig/package.json,src=./packages/tsconfig/package.json \
+    --mount=type=bind,target=/work/lifecycle/aws/package.json,src=./lifecycle/aws/package.json \
+    --mount=type=cache,id=pnpm-root,sharing=shared,target=/root/.local/share/pnpm/store \
+    pnpm install --frozen-lockfile --config.node-linker=hoisted \
+    --filter "@goauthentik/docusaurus-config"
+
 RUN --mount=type=bind,target=/work/.npmrc,src=./.npmrc \
     --mount=type=bind,target=/work/packages/docusaurus-config/,src=./packages/docusaurus-config/ \
     --mount=type=bind,target=/work/website/package.json,src=./website/package.json \
