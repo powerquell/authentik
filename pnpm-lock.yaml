@@ -91,13 +91,13 @@ importers:
         specifier: ^9.39.3
         version: 9.39.4
       '@goauthentik/eslint-config':
-        specifier: ../eslint-config
+        specifier: link:../eslint-config
         version: link:../eslint-config
       '@goauthentik/prettier-config':
-        specifier: ../prettier-config
+        specifier: link:../prettier-config
         version: link:../prettier-config
       '@goauthentik/tsconfig':
-        specifier: ../tsconfig
+        specifier: link:../tsconfig
         version: link:../tsconfig
       '@types/node':
         specifier: ^25.7.0
@@ -144,16 +144,16 @@ importers:
         specifier: ^9.39.3
         version: 9.39.4
       '@goauthentik/eslint-config':
-        specifier: ../eslint-config
+        specifier: link:../eslint-config
         version: link:../eslint-config
       '@goauthentik/logger-js':
-        specifier: ../logger-js
+        specifier: link:../logger-js
         version: link:../logger-js
       '@goauthentik/prettier-config':
-        specifier: ../prettier-config
+        specifier: link:../prettier-config
         version: link:../prettier-config
       '@goauthentik/tsconfig':
-        specifier: ../tsconfig
+        specifier: link:../tsconfig
         version: link:../tsconfig
       '@types/node':
         specifier: ^25.7.0
@@ -214,10 +214,10 @@ importers:
         version: 19.2.7(react@19.2.7)
     devDependencies:
       '@goauthentik/prettier-config':
-        specifier: ../prettier-config
+        specifier: link:../prettier-config
         version: link:../prettier-config
       '@goauthentik/tsconfig':
-        specifier: ../tsconfig
+        specifier: link:../tsconfig
         version: link:../tsconfig
       '@types/eslint':
         specifier: ^9.6.1
@@ -238,10 +238,10 @@ importers:
         specifier: ^9.39.3
         version: 9.39.4
       '@goauthentik/prettier-config':
-        specifier: ../prettier-config
+        specifier: link:../prettier-config
         version: link:../prettier-config
       '@goauthentik/tsconfig':
-        specifier: ../tsconfig
+        specifier: link:../tsconfig
         version: link:../tsconfig
       '@types/node':
         specifier: ^25.7.0
@@ -278,10 +278,10 @@ importers:
         specifier: ^9.39.3
         version: 9.39.4
       '@goauthentik/eslint-config':
-        specifier: ../eslint-config
+        specifier: link:../eslint-config
         version: link:../eslint-config
       '@goauthentik/tsconfig':
-        specifier: ../tsconfig
+        specifier: link:../tsconfig
         version: link:../tsconfig
       '@types/node':
         specifier: ^25.7.0
