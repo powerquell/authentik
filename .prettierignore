@@ -23,6 +23,10 @@ website/api/reference
 ## Yarn
 .yarn/**/*
 
+# PNPM
+pnpm-workspace.yaml
+pnpm-lock.yaml
+
 ## Node
 node_modules
 coverage
